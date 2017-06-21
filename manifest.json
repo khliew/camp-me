@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+
+  "name": "Camp Me",
+  "description": "This extension checks availability of campgrounds.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Camp Me"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.reserveamerica.com/unifSearch.do",
+        "https://www.reserveamerica.com/unifSearchResults.do"
+      ],
+      "js": [
+        "constants.js",
+        "content.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "webNavigation"
+  ]
+}
