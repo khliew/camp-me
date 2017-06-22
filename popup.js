@@ -1,26 +1,9 @@
-
-
-/** The extension-enabled element. */
+/* HTML elements */
 let autoSearch;
 let date;
 let enabled;
 let length;
 let interval;
-
-/**
- * Load settings.
- */
-function loadSettings() {
-  chrome.storage.sync.get({
-    [KEY_AUTO_SEARCH]: DEFAULT_AUTO_SEARCH,
-    [KEY_DATE]: DEFAULT_DATE,
-    [KEY_LENGTH]: DEFAULT_LENGTH,
-    [KEY_ENABLED]: DEFAULT_ENABLED,
-    [KEY_REFRESH_RATE]: DEFAULT_REFRESH_RATE
-  }, function(items) {
-    setExtensionEnabled(items);
-  });
-}
 
 /**
  * Saves a setting value.
@@ -32,8 +15,7 @@ function saveSetting(key, value) {
 /**
  * Sets whether or not the extension is enabled.
  */
-function setExtensionEnabled(settings) {
-  console.log('setExtensionEnabled');
+function loadSettings(settings) {
   enabled.checked = settings.enabled;
   interval.value = settings.refreshRate / 1000;
   autoSearch.checked = settings.autoSearch;
@@ -77,5 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
   length = document.getElementById('length');
   length.onchange = onLengthChange;
 
-  loadSettings();
+  requestSettings(function(settings) {
+    loadSettings(settings);
+  });
 });
