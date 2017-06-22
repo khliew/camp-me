@@ -17,7 +17,7 @@
         "https://www.reserveamerica.com/unifSearchResults.do"
       ],
       "js": [
-        "constants.js",
+        "common.js",
         "content.js"
       ]
     }
