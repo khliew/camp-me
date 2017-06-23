@@ -13,7 +13,7 @@ function saveSetting(key, value) {
 }
 
 /**
- * Sets whether or not the extension is enabled.
+ * Loads settings.
  */
 function loadSettings(settings) {
   enabled.checked = settings.enabled;

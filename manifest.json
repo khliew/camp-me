@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Camp Me",
-  "description": "This extension checks availability of campgrounds.",
+  "description": "This extension checks availability of Yosemite campgrounds.",
   "version": "1.0",
 
   "browser_action": {
