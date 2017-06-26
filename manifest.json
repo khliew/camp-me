@@ -18,7 +18,15 @@
       ],
       "js": [
         "common.js",
-        "content.js"
+        "search.js"
+      ]
+    }, {
+      "matches": [
+        "https://www.reserveamerica.com/camping/*/r/campgroundDetails.do?*"
+      ],
+      "js": [
+        "common.js",
+        "campground.js"
       ]
     }
   ],
