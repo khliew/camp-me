@@ -1,6 +1,3 @@
-# camp-me
+# Refresher
 
-This is a Chrome extension that checks for Yosemite campground availability.
-
-## License
-Code is licensed under [MIT](/LICENSE).
+This is a Chrome extension that refreshes a website.

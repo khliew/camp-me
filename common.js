@@ -1,28 +1,25 @@
+/*
+ * This script contains commonly used functions.
+ */
+
 /* Settings keys */
-const KEY_AUTO_SEARCH = 'autoSearch';
-const KEY_DATE = 'date';
+
 const KEY_ENABLED = 'enabled';
-const KEY_LENGTH = 'length';
 const KEY_REFRESH_RATE = 'refreshRate';
 
 /* Default settings values */
-const DEFAULT_AUTO_SEARCH = true;
+
 const DEFAULT_ENABLED = true;
-const DEFAULT_DATE = '07/28/2017';
-const DEFAULT_LENGTH = '1';
-const DEFAULT_REFRESH_RATE = 5 * 60 * 1000;
+const DEFAULT_REFRESH_RATE = 5 * 60 * 1000; // 5 minutes
 
 /**
  * Requests settings and returns them in callback.
  */
 function requestSettings(callback) {
   chrome.storage.sync.get({
-    [KEY_AUTO_SEARCH]: DEFAULT_AUTO_SEARCH,
-    [KEY_DATE]: DEFAULT_DATE,
-    [KEY_LENGTH]: DEFAULT_LENGTH,
     [KEY_ENABLED]: DEFAULT_ENABLED,
     [KEY_REFRESH_RATE]: DEFAULT_REFRESH_RATE
-  }, function(items) {
+  }, function (items) {
     callback(items);
   });
 }
@@ -32,12 +29,10 @@ function requestSettings(callback) {
  */
 function insertCountdown(endTime) {
   var html = `
-    <div style='position: fixed; bottom: 16px; left: 16px; width: 112px; height: 64px; background-color: lightgray; box-shadow: 0 0 1em gray;'>
+    <div style='position: fixed; bottom: 16px; left: 16px; width: 112px; height: 72px; background-color: lightgray; box-shadow: 0 0 1em gray;'>
       <div style='position: absolute; left: 8px; top: 8px'>
-        <label>Camp Me</label>
-        <br>
-        <span>Time to refresh:</span>
-        <br>
+        <p style='font-size: 12px'>Refresher</p>
+        <p style='font-size: 12px'>Time to refresh:</p>
         <b id='ce_time'>${toTimeText((endTime - Date.now()) / 1000)}</b>
       </div>
     </div>
@@ -46,12 +41,12 @@ function insertCountdown(endTime) {
 
   var time = document.getElementById('ce_time');
 
-  var intervalId = setInterval(function() {
+  var intervalId = setInterval(function () {
     var interval = (endTime - Date.now()) / 1000;
     time.textContent = toTimeText(interval);
 
     if (interval < 0) {
-        clearInterval(intervalId);
+      clearInterval(intervalId);
     }
   }, 1000);
 }
@@ -71,4 +66,27 @@ function toTimeText(time) {
   }
 
   return min + ':' + sec;
+}
+
+/**
+ * Displays a notification.
+ */
+function postNotification(message) {
+  window.postMessage({
+    type: "REFRESHER_NOTIFY",
+    text: message
+  }, "*");
+}
+
+function showNotification(event) {
+  if (event.data.type && (event.data.type == "REFRESHER_NOTIFY")) {
+    Notification.requestPermission()
+      .then(result => {
+        let options = {
+          body: event.data.text,
+          requireInteraction: true
+        };
+        let n = new Notification('Refresher', options);
+      });
+  }
 }
